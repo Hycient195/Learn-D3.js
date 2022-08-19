@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="../style.css">
+  <title>Drawind Shapes</title>
+</head>
+<body>
+  <main>
+    <h1 class="">Drawing Shapes</h1>
+    <p>
+      The next port of call is drawing shapes
+    </p>
+    <p>
+      With D3's powerful DOM manipulation methods, we can easily
+      and seamlessly create shapes used to represent data, by the 
+      manipulation of SVG elements.
+    </p>
+    <p>
+      Since SVG elements are just like regular HTML DOM nodes, 
+      but having special attributes for manipulating their shapes,
+      leveraging D3's functionality enables us to manipulate their
+      shape with attributes like radius, co-ordinates, height,
+      color, etc. in other to represent data quantitatively.
+    </p>
+    <p>
+      Let's see a brief example of how this is done as seen in 
+      the example below.
+    </p>
+    <code>
+      <pre>
+        <script class="snippet">
+const svg = d3.select("main")
+  .append("svg")
+  .attr("width", "500")
+  .attr("height", "300")
+  .style("border", "1px solid silver")
+        </script>
+      </pre>
+    </code>
+    <p>
+      The above snippet created a blank SVG element with fixed 
+      width and height respectively of 500px and 300px, and a
+      border of 1px solid grey so as to make it's outline visible.
+    </p>
+    <p>
+      Moving forward, let's add some more code.
+    </p>
+    <code>
+      <pre>
+        <script class="snippet">
+svg.append("circle")
+  .attr("cx", 200)
+  .attr("cy", 150)
+  .attr("fill", "blue")
+  .attr("r", 30)
+        </script>
+      </pre>
+    </code>
+    <p>
+      We append a circle svg element, to the SVG, giving it 
+      co-ordinates of 200px and 150px on both x and y axis 
+      respectively, filling it with a blue color, and giving
+      it a radius of 30px
+    </p>
+    
+  </main>
+</body>
+</html>

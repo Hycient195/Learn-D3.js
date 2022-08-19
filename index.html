@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="./script.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <h1 class="title">Welcome To D3 <strong>hello</strong> </h1>
+  <h2 id="subtitle">Have fun learning</h2>
+  <p>The first paragraph</p>
+  <input type="text" placeholder="Hello there">
+  <input type="text" id="name">
+  
+
+  <!--=================-->
+  <!-- Getting Started -->
+  <!--=================-->
+  <h1 class="">Getting Started</h1>
+  <p class="">
+    Getting started with D3 is relatively easy. the step to follow,
+    consists of doing one of the following
+  </p>
+  <dl>
+    <dt><strong>Using a CDN</strong></dt>
+    <dd>
+      This involves using the minifled script, served through a content
+      delivery network, by including in your project the script link
+      obtained from the D3 official documentation. It looks something 
+      like as shown below.
+      <br><br>
+      <script class="snippet">
+        <script src="https://d3js.org/d3.v7.min.js"/>
+      </script>
+    </dd>
+    <dt><strong>Using D3 Locally</strong></dt>
+    <dd>
+      This involves downloading the minified D3 JavaScript file locally,
+      and making use of it from your local machine. The files for using
+      D3 locally can also be found on the landing page of the official 
+      documentation.
+    </dd>
+  </dl>
+
+
+  <hr>
+
+
+
+
+  <!--===============-->
+  <!-- DOM Selection -->
+  <!--===============-->
+  <h1 class="">DOM Selection</h1>
+  <p class="">
+    The first port of call in learning about D3 is learning about
+    how to select element, which we can further manipulate to 
+    suit our purposes in future.
+  </p>
+  <p class="">
+    When working with D3, selection of DOM elements is dome a little
+    bit differently as compared to selecing with regular JavaScript. DOM elements
+    are selected using the <strong>.select()</strong> and the 
+    <strong>.selectAll()</strong> methods.
+  </p>
+  <p>
+    Let's see an example as shown below
+  </p>
+
+  <code>
+    <pre>
+<script class="snippet">
+d3.select("p")
+</script>
+    </pre>
+  </code>
+  <p>
+    The <strong>.select()</strong> method is used to select the first occourence
+     of the selected element passed to it as argument, while the <strong>.selectAll()</strong>
+     selects all occourence matching the entity being queried.
+  </p>
+  <p>
+    They can also method can also receive id and class selectors as arguments
+    and even multi-part complex selectors, as well as some pseudo-selectors,
+     as seen in regular CSS
+  </p>
+  <p>
+    Let's see some of them as shown below
+  </p>
+
+  <code>
+    <pre>
+<script class="snippet">
+d3.select("h1#title")  // ID Selector
+d3.select("p.comment")  // Class Selector
+d3.selectAll("input:not(#name)")  // Pseudo Selector
+d3.select("h1.title > strong")  // Child Selector
+</script>
+    </pre>
+  </code>
+  
+
+  <hr>
+
+  <!--==================-->
+  <!-- Basic D3 Methods -->
+  <!--==================-->
+  <h1 class="">Basic D3 Methods</h1>
+  <p class="">
+    Proceeding, let's take a look at some of the basic and common
+    methods in D3, which are used for DOM Manipulation
+  </p>
+
+
+
+  <!--=====================-->
+  <!-- The Append() Method -->
+  <!--=====================-->
+  <dl>
+    <dt><strong>The .append() and .insert() methods</strong></dt>
+    <dd>
+      <p>
+        The they are used to append as their name implies, a document
+        node to an already existing selected node or element.
+      </p>
+      <p>
+        Let's see an example below.
+      </p>
+      <div id="append-div">
+        <p>Div To be appended</p>
+      </div>
+      <code>
+        <pre>
+<script class="snippet">
+d3.select("#append-div").append("input");
+d3.select("#append-div").insert("input");
+</script>
+        </pre>
+      </code>
+      <p>
+        Although nothing happens in the example above, a h1 element
+        has been appended to the div containing the text "Div to be appended"
+      </p>
+    </dd>
+    
+
+
+    <!--=================-->
+    <!-- The Text Method -->
+    <!--=================-->
+    <dl>
+      <dt><strong>The .text() method</strong></dt>
+      <dd>
+        <p>
+          The .text() method is used to add text in an empty document node or element, 
+          or replace the text inside a selected element or document node, that already contains text.
+        </p>
+        <p>Let's see how it works in the example below</p>
+        <h2 class="default-text">Default text</h2>
+        <code>
+          <pre>
+<script class="snippet">   
+d3.select("h2.default-text").text("New text")
+d3.select("h2.default-text").append("h3").text("New h3 text")
+</script>
+          </pre>
+        </code>
+        <p>
+          The text above the example snippet had an initial value of 
+          "Default text", but was changed to "New text" using D3.
+          Also in the second example snippet, a new node (h3) was created,
+          appended to the h2 element with class "default-text", and given a
+          text of "New h3 text".
+        </p>
+      </dd>
+    </dl>
+
+
+
+    <!--=====================-->
+    <!-- The Remove() method -->
+    <!--=====================-->
+    <dl>
+      <p class="remove-me">Really remove me</p>
+      <dt><strong>The .remove() method</strong></dt>
+      <dd>
+        <p>The .remove() method is used to remove a selected element
+          or node from the DOM.
+        </p>
+        <code>
+          <pre>
+<script class="snippet">
+d3.select("p.remove-me").remove();
+</script>
+          </pre>
+        </code>
+      </dd>
+    </dl>
+
+
+
+    <!--=================-->
+    <!-- The HTML Method -->
+    <!--=================-->
+    <dl>
+      <dt><strong>The .html() method</strong></dt>
+      <dd>
+        <p>The .html() method is used to insert text in a DOM node or 
+          element, but additionally unlike the .text method, can be used
+          to insert fully formed HTML elements 
+        </p>
+        <div class="add-html"></div>
+        <code>
+          <pre>
+<script class="snippet">
+d3.select("div.add-html").html(`<input type="radio" checked/>`)
+</script>
+          </pre>
+        </code>
+      </dd>
+    </dl>
+
+
+
+    <!--===================-->
+    <!-- The Attr() Method -->
+    <!--===================-->
+    <dl>
+      <dt><h2>The .attr() and .property() methods</h2></dt>
+      <dd>
+        <p>
+          The .attr() and .property() methods are used to add an 
+          attribute or property to a selected element. It accepts two
+          arguments as input; the attribute to be added and the value
+          to be assigned to it.
+        </p>
+        <input type="checkbox" class="add-attribute">
+        <textarea class="disable-with-property" name="" id="" cols="20" rows="2">disabled with D3</textarea>
+        <p class="test-text">Test Text</p>
+        <code>
+          <pre>
+<script class="snippet">
+d3.select("input.add-attribute").attr("checked", true);
+d3.select(".disable-with-property").property("disabled", true);
+d3.select("p.test-text").style({"background-color": "red"});
+</script>
+          </pre>
+        </code>
+      </dd>
+    </dl>
+  </dl>
+
+
+
+  <!--==================-->
+  <!-- The Style Method -->
+  <!--==================-->
+  <dl>
+    <dt>
+      <h2>The .style() method</h3>
+    </dt>
+    <dd>
+      <p>
+        The style() method is used to manipulate the style properties of
+        a selected element or DOM node.
+      </p>
+      <p>
+        It accepts two arguments as input, which are the property to be set,
+        and the value to be assigned to it.
+      </p>
+      <p class="teal-text">Example Output</p>
+      <code>
+        <pre>
+<script class="snippet">
+d3.select("p.teal-text").style("background-color", "teal")
+</script>
+        </pre>
+      </code>
+    </dd>
+  </dl>
+
+
+  <!-- <dl>
+    <dt>
+      <h3></h3>
+    </dt>
+  </dl> -->
+  <p class="data-container">4</p>
+  <p class="data-container"></p>
+  <p class="data-container"></p>
+  <p class="data-container"></p>
+  <p class="data-container"></p>
+  <script class="snippet">
+    const dataArr = [1,2,3,4,5,6];
+    d3.selectAll("p.data-container").text("hello")
+      // .data(dataArr)
+      // .text(function(d, i){
+      //   return d;
+      // })
+  </script>
+</body>
+</html>

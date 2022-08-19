@@ -1,0 +1,94 @@
+Ansconmbe's Quartet
+
+The essence of the implementation of the Anscombe's Quertet is intended to counter the impression among statisticians that "numerical calculations are exact, but graphs are rough."
+
+
+In ranking encoding, positon (x and y planes) come first, in scale of importance, while color density comes last. This is because of their relative nature in displaying the most important information, ina set of data
+
+The ranking are this:
+	Position
+	Length
+	Angle and slope
+	Area
+	Volume
+	Density
+	
+	
+	Rickshaw Dimple NVD3
+	Chargind Dell XPS with usb type C
+	
+	
+	Data to Display Elements
+	Data Display
+	
+	Exploratory Data analysis is used to deduce information about a set of data, for one's self, while in data visualization, one tries to convey information about a piece of data, to others
+	
+	
+	The enter() method is used to create a new element or DOM node for each piece of data in a dataset
+
+
+
+
+var r = d3.scale.sqrt().domain([52070, 1380000000]).range([10,50]);
+
+
+
+
+
+ const canvas = d3.select("main")
+            .append("svg")
+            .attr("width", "500")
+            .attr("height", "300")
+            .style("border", "1px solid silver")
+
+            canvas.append("circle")
+            .attr("cx", x(15))
+            .attr("cy", y(49))
+            .attr("fill", "teal")
+            .attr("r", r(52070))
+
+            canvas.append("circle")
+            .attr("cx", x(25))
+            .attr("cy", y(78))
+            .attr("fill", "blue")
+            .attr("r", r(52090))
+          console.log(y(45))
+
+
+The text method also accepts a callback function as argument
+The function reveives the value under operation, and can carry
+out certain logic based on the value
+
+The Style() method also accepts a callback function as argument,
+and can perform similay logic with the value it receives from 
+the callback function
+
+
+
+
+
+
+/*===================================*/
+/* Basic Process For Drawing a Chart */
+/*===================================*/
+Setting Of Canvas Width and height
+Setting up scale for X and Y
+Append SVG with set width and height
+Append Shapes co-ordinate with value for their co-ordinates scaled
+Set up Axis using the required D3 methods
+Append Axis
+
+
+
+1. Access data
+2. Create dimensions
+3. Draw canvas
+4. Create scales
+5. Draw data
+6. Draw peripherals
+7. Set up interactions
+
+Our wrapper is the whole size of the entire chart entity, comprising of the axes
+and labels too..
+
+Our bounds consists only the part of the chart, where the diagram is diaplayed

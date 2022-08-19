@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="./styles.css">
+  <title>Practice 3</title>
+</head>
+<body>
+  <h1>A Histogram On The Number Of Star Rating For A List Of Products</h1>
+  <h4>Source: <a href="https://dummyjson.com/products?limit=100">https://dummyjson.com/products?limit=100</a></h4>
+
+  <div id="wrapper">
+
+  </div>
+  <script>
+    window.addEventListener("DOMContentLoaded", async()=>{
+      const res = await fetch("https://dummyjson.com/products?limit=100")
+      const data = await res.json()
+      // console.log(data.products)
+      const dataset = data.products;
+
+      const _width = 600;
+      const dimensions = {
+        width: _width,
+        height: _width * 0.7, 
+        boundedWidth: 0,
+        boundedHeight: 0,
+        barMargin: 1,
+        margin: {
+          top: 30,
+          right: 20,
+          bottom: 45,
+          left: 60
+        }
+      }
+      dimensions.boundedHeight = dimensions.height - (dimensions.margin.top + dimensions.margin.bottom)
+      dimensions.boundedWidth = dimensions.height - (dimensions.margin.left + dimensions.margin.right)
+
+      /* Acessor Functions */
+      const xAcessor = x => x.rating
+      const yAcessor = y => y.length
+
+      const svg = d3.select("#wrapper")
+          .append("svg")
+          .attr("height", dimensions.height)
+          .attr("width", dimensions.width)
+
+      const bounds = svg.append("g")
+          .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
+
+      const xScale = d3.scaleLinear()
+          .domain(d3.extent(dataset, (d)=> d.rating))
+          .range([0, dimensions.boundedWidth])
+          .nice()
+
+      const binGenerator = d3.histogram()
+          .domain(xScale.domain())
+          .value((d)=> d.rating)  // New method learnt
+          .thresholds(9) // New method learnt
+
+      const bins = binGenerator(dataset)
+          console.log(binGenerator(dataset))
+
+      const yScale = d3.scaleLinear()
+          .domain([0, d3.max(bins, yAcessor)])
+          .range([dimensions.boundedHeight, 0])
+
+      const binsGroup = bounds.append("g")
+        
+
+      
+      const binGroups = binsGroup.selectAll("g")
+          .data(bins)
+          .enter()
+          .append("g")
+
+      const barRects = binGroups.append("rect")
+          .attr("x", (d)=> xScale(d.x0))
+          .attr("y", (d)=> yScale(d.length))
+          .attr("width", (d)=> d3.max([0, xScale(d.x1) - xScale(d.x0)]) - dimensions.barMargin)
+          .attr("height", (d)=> dimensions.boundedHeight - yScale(d.length))
+          .attr("fill", "lightgreen")
+
+
+          binGroups.append("text")
+          .style("font-size", "1em")
+          .attr("fill", "teal")
+          .attr("y", (d)=> yScale(d.length) - 10)
+          .attr("x", (d)=> xScale(d.x0) + 8)
+          .html((d)=> d.length)
+          
+
+
+      /* Setting Up Axes */
+      const xAxis = bounds.append("g")
+          .call(d3.axisBottom(xScale))
+          .style("transform", `translateY(${dimensions.boundedHeight}px)`)
+          .append("text")
+          .attr("fill", "black")
+          .style("font-size", "1.5em")
+          .attr("x", dimensions.boundedWidth / 2)
+          .attr("y", dimensions.margin.bottom / 1.5)
+          .html("Number of Star Rating")
+
+      const yAxis = bounds.append("g")
+          .call(d3.axisLeft(yScale))
+          .append("text")
+          .attr("fill", "black")
+          .style("font-size", "1.5em")
+          .attr("x", -dimensions.boundedHeight / 2)
+          .attr("y", -dimensions.margin.left / 2)
+          .style("transform", `rotate(-90deg)`)
+          .style("text-anchor", "middle")
+          .html("Frequency")
+
+      
+        
+
+
+    })
+  </script>
+   <h2>Take Aways</h2>
+   <ol>
+    <li>In D3 histograms classify Entities within a given frequency in containers, called <strong>bins</strong></li>
+    <li>
+      A bin generator function is created by using the <strong>d3.histogram()</strong> method,
+      chaining a <strong>domain</strong> to it with the scale as argument, 
+      chaining <strong>.value()</strong> mtehod with an acessor function specifying
+      the value to be casted into the bins, with the scale provided, and finally,
+      chaining the <strong>.thresholds()</strong> method to specify how many bins to be created
+      <dl>
+        <dd>
+          <pre>
+const binGenerator = d3.histogram()
+    .domain(xScale.domain())
+    .value((d)=> d.rating)
+    .thresholds(9)
+          </pre>
+        </dd>
+      </dl>
+    </li>
+    <li>A bin can then be created by passing the dataset of the actual data on the
+      call of the bin creator function.
+      <dl>
+        <dd>
+          <pre>
+const bins = binGenerator(dataset)
+          </pre>
+        </dd>
+      </dl>
+    </li>
+    <li>
+      The bin function creation and call can be chained together if need be
+    </li>
+   </ol>
+
+   <h2>Tips</h2>
+   <ol>
+     <li>
+        Histograms are easiest to read when they are wider than
+        they are tall.
+     </li>
+     <li>
+       putting a space between bars helps distinguish individual
+       bars
+     </li>
+   </ol>
+</body>
+</html>

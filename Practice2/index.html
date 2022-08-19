@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="./styles.css">
+  <title>Document</title>
+</head>
+<body>
+  <h1>A Scatter Plot Of Discount Percentage Against Rating For A Set Of Products </h1>
+  <script>
+    window.addEventListener("DOMContentLoaded", async()=>{
+      // const res = await fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json")
+      const res = await fetch("https://dummyjson.com/products?limit=100")
+      const data = await res.json()
+      console.log(data.products)
+      const dataset = data.products;
+
+      const dimensions = {
+        width: 850,
+        height: 400, 
+        boundedWidth: 0,
+        boundedHeight: 0,
+        margin: {
+          top: 20,
+          right: 20,
+          bottom: 45,
+          left: 60
+        }
+      }
+      dimensions.boundedWidth = dimensions.width - (dimensions.margin.right + dimensions.margin.left)
+      dimensions.boundedHeight = dimensions.height - (dimensions.margin.top + dimensions.margin.bottom)
+
+      const svg = d3.select("body")
+          .append("svg")
+          .attr("width", dimensions.width)
+          .attr("height", dimensions.height)
+
+      const bounds = svg.append("g")
+          .attr("width", dimensions.boundedWidth)
+          .attr("height", dimensions.boundedHeight)
+          .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
+
+
+      /* Scales Section */
+      const xScale = d3.scaleLinear()
+          .domain(d3.extent(dataset, (d)=> d.rating))
+          .range([0, dimensions.boundedWidth]).nice()
+      const yScale = d3.scaleLinear()
+          .domain(d3.extent(dataset, (d)=> d.discountPercentage))
+          .range([dimensions.boundedHeight, 0]).nice()
+      const colorScale = d3.scaleLinear()
+          .domain(d3.extent(dataset, (d)=> d.stock))
+          .range(["yellow", "crimson"])
+      const priceScale = d3.scaleLinear()
+          .domain(d3.extent(dataset, (d)=> d.price))
+          .range([4, 20])
+
+      let circle = bounds.selectAll("circle")
+          .data(dataset)
+          .join("circle") // The .join() method prevents us from reusing the chain of .enter().append()
+          .attr("cx", (d)=> xScale(d.rating))
+          .attr("cy", (d)=> yScale(d.discountPercentage))    
+          .attr("r", (d)=> priceScale(d.price))
+          .attr("fill", (d)=> colorScale(d.stock))
+          console.log(circle)
+
+
+      bounds.append("g")
+          .call(d3.axisLeft().scale(yScale))
+          .append("text")
+          .attr("x", -dimensions.boundedHeight / 2)
+          .attr("y", -dimensions.margin.left + 25)
+          .attr("fill", "black")
+          .style("font-size", "1.5em")
+          .style("transform", "rotate(-90deg)")
+          .style("text-anchor", "middle")
+          .html("Discount Percentage (%)")
+                 
+      bounds.append("g")
+          .call(d3.axisBottom(xScale))
+          .style("transform", `translate(0, ${dimensions.boundedHeight}px)`)
+          .append("text")
+          .attr("x", dimensions.boundedWidth / 2)
+          .attr("y", dimensions.margin.bottom / 1.5)
+          .attr("fill", "black")
+          .style("font-size", "1.5em")
+          .html("Rating (0 - 5) ")
+
+    })
+  </script>
+
+  <h2>New Concepts Learnt</h2>
+  <ol>
+    <li>Creating a color scale</li>
+    <li>The use of the .nice() method, ensure that axes start and end at round numbers</li>
+    <li>Appending text to the axes using the text svg element</li>
+    <li>Using the .join() method to replace .data().enter().merge() and knowing how it works</li>
+  </ol>
+  <h2>Take Aways</h2>
+  <ol>
+    <li>Research more on Pearson Correlation Coefficient or Mutual Analyses</li>
+  </ol>
+</body>
+</html>

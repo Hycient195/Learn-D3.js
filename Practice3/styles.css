@@ -1,0 +1,16 @@
+body {
+  padding: 1.5em;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+}
+
+svg {
+  border: 1px solid silver;
+}
+
+svg rect {
+  transition: all 500ms;
+}
+
+svg rect:hover {
+  fill: teal;
+}

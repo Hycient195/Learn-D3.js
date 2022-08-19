@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <h1>Hello Practice 1</h1>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", async()=>{
+      const res = await fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json")
+      const data = await res.json()
+      const dataset = data.data;
+
+      let dimension = {
+        width: window.innerWidth * 0.9,
+        height: 400,
+        boundedHeight: 0,
+        boundedWidth: 0,
+        margin: {
+          top: 15,
+          right: 15,
+          bottom: 40,
+          left: 60
+        }
+      }
+
+      dimension.boundedHeight = dimension.height 
+                            - (dimension.margin.top 
+                            + dimension.margin.bottom)
+
+      dimension.boundedWidth = dimension.width 
+                            - (dimension.margin.left 
+                            + dimension.margin.right)
+
+      const svg = d3.select("body")
+          .append("svg")
+          .attr("height", dimension.height)
+          .attr("width", dimension.width)
+
+      const bounds = svg.append("g")
+          .style("transform", `translate(${dimension.margin.left}px, ${dimension.margin.top}px)`)
+
+
+      const xScale = d3.scaleLinear()
+          .domain(d3.extent(dataset, (d)=> Number(String(d[0]).split(",")[0].split("-")[0])))
+          .range([0, dimension.boundedWidth])
+
+      const yScale = d3.scaleLinear()
+          .domain(d3.extent(dataset, (d)=> d[1]))
+          .range([dimension.boundedHeight, 0])
+
+      const lineGenerator = d3.line()
+          .x((d)=>  xScale(Number(String(d[0]).split(",")[0].split("-")[0])))
+          .y((d)=> yScale(d[1]))
+
+      bounds.append("path")
+          .attr("d", lineGenerator(dataset))
+          .attr("fill", "none")
+          .attr("stroke", "red")
+          .attr("stroke-width", 2)
+
+      // Method 1 of Calling Axis
+      const xAxisGenerator = d3.axisBottom()
+          .scale(xScale)
+
+      const xAxis = bounds.append("g")
+          .style("transform", `translate(0, ${dimension.boundedHeight}px)`)
+          .call(xAxisGenerator)
+
+      // Method 2 of Calling Axis (shorter)
+      const yAxis = bounds.append("g")
+          .call(d3.axisLeft(yScale))
+
+      })
+  </script>
+</body>
+</html>

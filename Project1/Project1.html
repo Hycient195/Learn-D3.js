@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <h1>United States GDP From 1950 to 2015</h1>
+  <script>
+    window.addEventListener("DOMContentLoaded", async()=>{
+      const res = await fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json")
+      const data = await res.json()
+      const dataset = data.data;
+      console.log(data.data)
+
+
+
+      /*=======================*/
+      /* Setting Up SVG Canvas */
+      /*=======================*/
+      const padding = 50;
+      const height = 400 ;
+      const width = 3 * dataset.length + padding;
+      
+      const svg = d3.select("body").append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+
+
+                    
+      /*========================================*/
+      /* Setting Vertical and Horizontal Scales */
+      /*========================================*/
+      const xScale = d3.scaleLinear()
+                      .domain([d3.min(dataset, (d)=> Number(String(d[0]).split(",")[0].split("-")[0])), d3.max(dataset, (d)=> Number(String(d[0]).split(",")[0].split("-")[0]))])
+                      .range([padding, width - (padding / 4)])
+
+      const yScale = d3.scaleLinear()
+                      .domain([0, d3.max(dataset, (d)=> d[1])])
+                      .range([height - padding, padding])
+
+
+
+      /*===============*/
+      /* Defining Axis */
+      /*===============*/
+      const xAxis = d3.axisBottom(xScale)
+      const yAxis = d3.axisLeft(yScale)
+
+
+
+
+      /*=========================*/
+      /* Drawing Bar Chart Lines */
+      /*=========================*/
+      svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("height", (d, i)=> (height - padding) - yScale(d[1]))
+        .attr("width", 2)
+        .attr("x", (d, i)=> padding + (i * 3))
+        .attr("y", (d, i)=>  yScale(d[1]) )
+        .attr("fill", "blue")
+        .append("title")
+        .text((d)=> String(d).split("-")[0] + "  $" + String(d).split(",")[1]) 
+
+
+
+      /*==============================*/
+      /* Appending Axis To SVG Canvas */
+      /*==============================*/
+      svg.append("g")
+        .attr("transform", `translate(0, ${height - padding})`)
+        .call(xAxis)
+
+      svg.append("g")
+        .attr("transform", `translate(${padding}, 0)`)
+        .call(yAxis)
+      
+        
+    })
+  </script>
+</body>
+</html>

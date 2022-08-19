@@ -1,0 +1,22 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgb(247, 208, 201);
+}
+
+svg {
+  /* border: 1px solid silver; */
+  margin: 0 auto !important;
+  padding: 2em;
+  background-color: white;
+  box-shadow: -10px 10px 7px -7px rgba(0,0,0,0.6);
+}
+
+svg rect:hover {
+  fill: white !important;
+}
+
+h1 {
+  text-align: center;
+}

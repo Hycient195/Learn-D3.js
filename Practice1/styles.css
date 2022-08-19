@@ -1,0 +1,11 @@
+body {
+  padding: 1em;
+}
+
+svg {
+  border: 1px solid silver;
+}
+
+body svg path:hover {
+  stroke-width: 4;
+}
